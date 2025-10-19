@@ -1,0 +1,23 @@
+@import "tailwindcss";
+@import "swiper/css";
+@import "swiper/css/pagination";
+@import "swiper/css/navigation";
+
+@layer base {
+  html, body, #root {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif; /* додаємо сюди */
+  }
+
+  body {
+    font-family: 'Montserrat', sans-serif !important; /* примусове застосування */
+  }
+}
+.rdp-nav,
+.rdp-month_caption {
+  display: none !important;
+}
+
