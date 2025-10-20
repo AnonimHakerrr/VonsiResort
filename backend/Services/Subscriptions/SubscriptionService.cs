@@ -1,4 +1,4 @@
-using backend.Config;
+using backend.Confige;
 using backend.DTOs.Subscriptions;
 using backend.Models;
 using MongoDB.Driver;

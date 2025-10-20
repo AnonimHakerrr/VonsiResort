@@ -1,4 +1,4 @@
-namespace backend.Config
+namespace backend.Confige
 {
     public class MongoDbSettings
     {

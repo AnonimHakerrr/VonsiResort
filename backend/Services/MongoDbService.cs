@@ -1,4 +1,4 @@
- using backend.Config;
+ using backend.Confige;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 

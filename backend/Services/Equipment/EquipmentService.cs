@@ -1,5 +1,5 @@
 using AutoMapper;
-using backend.Config;
+using backend.Confige;
 using backend.DTOs.EquipmentRental;
 using backend.DTOs.Services;
 using backend.Models;
