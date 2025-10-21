@@ -18,7 +18,6 @@ const buttonVariants = cva(
       variant: {
         default: "bg-yellow-400 text-black hover:bg-yellow-300",
         ghost: "hover:bg-yellow-100 hover:text-black",
-        outline: "border bg-white text-black hover:bg-yellow-50 hover:text-black",
       },
     },
     defaultVariants: {
@@ -86,7 +85,7 @@ export const Calendar: React.FC<CalendarProps> = ({
       <DayPicker
         {...props}
         mode="single"
-        selected={currentSelected} // остання вибрана дата завжди виділена
+        selected={currentSelected} 
         onSelect={handleSelect}
         month={month}
         onMonthChange={setMonth}
@@ -104,8 +103,6 @@ export const Calendar: React.FC<CalendarProps> = ({
             buttonVariants({ variant: "ghost" }),
             "h-9 w-9 text-sm font-normal"
           ),
-          day_selected: "bg-yellow-400 text-black",
-          day_outside: "bg-white text-gray-600 opacity-50",
           day_disabled: "bg-black text-gray-800 opacity-50",
           ...classNames,
         }}
