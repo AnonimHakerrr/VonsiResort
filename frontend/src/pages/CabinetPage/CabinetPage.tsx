@@ -323,7 +323,7 @@ export default function DashboardPage() {
         (checkOut.getTime() - checkIn.getTime()) / (1000 * 60 * 60 * 24)
       );
 
-      const price = rental.pricePerDay * nights;
+      const price = rental.pricePerDay * nights * rental.quantity;
 
       if (
         seasonMonths.includes(checkIn.getMonth()) &&

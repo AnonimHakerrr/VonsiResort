@@ -8,7 +8,7 @@ import type { IHeaderProps } from "./types";
 export const Header: React.FC<IHeaderProps> = ({ onOpenSettings, onLogout }) => {
   return (
     <header className="!bg-white !border-b sm:!px-6 sm:!py-0">
-      <div className="!max-w-7xl !mx-auto !flex !flex-col sm:!flex-row !items-center !justify-between !gap-2 sm:!gap-0">
+      <div className="!mx-auto !flex !flex-col sm:!flex-row !items-center !justify-between !gap-2 sm:!gap-0">
         {/* Логотип та назва */}
         <a
           href="/"

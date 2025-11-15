@@ -78,6 +78,7 @@ export const RentalDetailsDialog: React.FC<IRentalDetailsDialogProps> = ({
                   />
                   <InfoRow label="Розмір:" value={rental.size} />
                   <InfoRow label="Стан:" value="Відмінний" />
+                  <InfoRow label="Кількість:" value={rental.quantity} />
                 </Section>
 
                 {/* Вартість */}
@@ -87,7 +88,7 @@ export const RentalDetailsDialog: React.FC<IRentalDetailsDialogProps> = ({
                 >
                   <InfoRow
                     label="Оренда:"
-                    value={`₴${calculateTotal(rental.checkIn, rental.checkOut, rental.pricePerDay)}`}
+                    value={`₴${calculateTotal(rental.checkIn, rental.checkOut, rental.pricePerDay, rental.quantity)}`}
                     bold
                   />
                   <InfoRow
@@ -149,15 +150,15 @@ export const RentalDetailsDialog: React.FC<IRentalDetailsDialogProps> = ({
 
 /* 🔹 Допоміжні функції */
 
-const calculateTotal = (checkIn: string, checkOut: string, price: number) => {
-  const start = new Date(checkIn);
-  const end = new Date(checkOut);
-  start.setHours(0, 0, 0, 0);
-  end.setHours(0, 0, 0, 0);
+const calculateTotal = (checkIn: string, checkOut: string, price: number, quantity: number) => {
+  const checkInDate = new Date(checkIn)
+	const checkOutDate = new Date(checkOut)
+	checkInDate.setHours(0, 0, 0, 0)
+	checkOutDate.setHours(0, 0, 0, 0)
 
-  const diff = end.getTime() - start.getTime();
-  const days = Math.max(1, diff / (1000 * 60 * 60 * 24));
-  const total = price * days;
+	const diffTime = checkOutDate.getTime() - checkInDate.getTime()
+	const nights = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+  const total = price * nights * quantity;
 
   return new Intl.NumberFormat("uk-UA").format(total);
 };

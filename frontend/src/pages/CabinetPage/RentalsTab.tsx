@@ -46,7 +46,7 @@ export const RentalsTab: React.FC<IRentalsTabProps> = ({
 
 					const diffTime = checkOutDate.getTime() - checkInDate.getTime()
 					const nights = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
-					const total = rental.pricePerDay * nights
+					const total = rental.pricePerDay * nights * rental.quantity
 
 					return (
 						<Card
