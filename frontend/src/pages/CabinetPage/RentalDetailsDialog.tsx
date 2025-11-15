@@ -5,7 +5,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogDescription,
-} from "../../components/Dialog"; // 🔹 змінити шлях під твій проєкт
+} from "../../components/Dialog";
 import { Badge } from "../../components/Badge";
 import { Package, CreditCard, MapPin, Clock, Phone } from "lucide-react";
 import type { IRentalDetailsDialogProps } from "./types";

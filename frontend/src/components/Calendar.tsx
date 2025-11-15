@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { DayPicker, type PropsSingle, type Modifiers } from "react-day-picker";
+import { DayPicker, type PropsSingle } from "react-day-picker";
 import { cn } from "../lib/utils";
-import { cva } from "class-variance-authority";
 
 interface CalendarProps extends PropsSingle {
   className?: string;
@@ -11,20 +10,6 @@ interface CalendarProps extends PropsSingle {
   onSelectDate?: (date: Date | undefined) => void;
 }
 
-const buttonVariants = cva(
-  "rounded-lg text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 p-2 text-center",
-  {
-    variants: {
-      variant: {
-        default: "bg-yellow-400 text-black hover:bg-yellow-300",
-        ghost: "hover:bg-yellow-100 hover:text-black",
-      },
-    },
-    defaultVariants: {
-      variant: "default",
-    },
-  }
-);
 
 const ukShortWeekdays = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Нд"];
 
@@ -33,33 +18,18 @@ export const Calendar: React.FC<CalendarProps> = ({
   classNames,
   showOutsideDays = false,
   selected,
-  onSelect,
   onSelectDate,
   ...props
 }) => {
-  const [month, setMonth] = useState(new Date());
-  const [internalSelected, setInternalSelected] = useState<Date | undefined>();
-  const [isVisible, setIsVisible] = useState(true);
+  const [month, setMonth] = useState(selected || new Date());
 
-  const isControlled = selected !== undefined && onSelect !== undefined;
-  const currentSelected = isControlled ? selected : internalSelected;
+  const currentSelected = selected;
 
-  const handleSelect = (
-    selected: Date | undefined,
-    triggerDate: Date,
-    modifiers: Modifiers,
-    e: React.MouseEvent | React.KeyboardEvent
-  ) => {
-    if (isControlled) {
-      onSelect?.(selected, triggerDate, modifiers, e);
-    } else {
-      setInternalSelected(selected);
+  const handleSelect = (selectedDate: Date | undefined) => {
+    if (selectedDate) {
+      selectedDate.setHours(0, 0, 0, 0);
     }
-
-    onSelectDate?.(selected);
-
-    // приховуємо календар, але не демонтуємо
-    setIsVisible(false);
+    onSelectDate?.(selectedDate);
   };
 
   const handlePrev = () =>
@@ -68,12 +38,7 @@ export const Calendar: React.FC<CalendarProps> = ({
     setMonth((prev) => new Date(prev.getFullYear(), prev.getMonth() + 1));
 
   return (
-    <div
-      className={cn(
-        "p-4 bg-black rounded-lg inline-block relative",
-        !isVisible && "hidden"
-      )}
-    >
+    <div className={cn("p-4 bg-black rounded-lg inline-block relative")}>
       <h3 className="text-white text-center text-base font-semibold mb-2">
         Виберіть дату
       </h3>
@@ -85,7 +50,7 @@ export const Calendar: React.FC<CalendarProps> = ({
       <DayPicker
         {...props}
         mode="single"
-        selected={currentSelected} 
+        selected={currentSelected}
         onSelect={handleSelect}
         month={month}
         onMonthChange={setMonth}
@@ -99,11 +64,18 @@ export const Calendar: React.FC<CalendarProps> = ({
         className={cn("bg-black rounded-lg text-white", className)}
         classNames={{
           months: "px-3 py-2",
+          
           day: cn(
-            buttonVariants({ variant: "ghost" }),
-            "h-9 w-9 text-sm font-normal"
+            "rounded-lg text-sm transition-all disabled:pointer-events-none disabled:opacity-50 text-center", // Базові класи з cva
+            "hover:bg-yellow-100 hover:text-black", // Класи з варіанту 'ghost'
+            "h-9 w-9 font-normal" 
           ),
-          day_disabled: "bg-black text-gray-800 opacity-50",
+          
+          selected: cn(
+            "!bg-yellow-400 !text-black"
+          ),
+          
+          disabled: "text-gray-100 opacity-50",
           ...classNames,
         }}
       />

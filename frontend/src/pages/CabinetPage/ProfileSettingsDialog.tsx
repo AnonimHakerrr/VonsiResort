@@ -134,7 +134,7 @@ export const ProfileSettingsDialog: React.FC<IProfileSettingsDialogProps> =
                 onChange={(e) => {
                   const value = e.target.value;
                   handleSettingsChange("phone", value);
-                  const phoneValid = /^\+38\d{10}$/.test(value);
+                  const phoneValid = /^\+380\d{9}$/.test(value);
                   setFieldErrors((prev) => ({ ...prev, phone: !phoneValid }));
                 }}
               />

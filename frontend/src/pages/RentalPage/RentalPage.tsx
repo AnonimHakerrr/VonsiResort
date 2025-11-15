@@ -69,7 +69,7 @@ export default function RentalPage() {
 
   // --- Функції для роботи з кошиком ---
   
-  // Додаємо або збільшуємо кількість предмета
+  // Додаємо  кількість предмета
   const addToCart = (item: Equipmentt, selectedSize?: string) => {
     const rentalDays = calculateRentalDays(startDate, endDate);
 

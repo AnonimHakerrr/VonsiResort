@@ -4,11 +4,7 @@ import { Button } from "../../components/Button";
 import { Calendar, Snowflake, CreditCard, QrCode } from "lucide-react";
 import type { OverviewTabProps } from "./types";
 
-/**
- * Компонент вкладки "Огляд" користувача
- * Показує активні бронювання, дні на схилах, витрачені гроші
- * та швидкі дії для навігації
- */
+
 export const OverviewTab: React.FC<OverviewTabProps> = ({
   bookingData,
   subcription,

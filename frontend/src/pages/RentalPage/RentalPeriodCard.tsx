@@ -44,7 +44,7 @@ export default function RentalPeriodCard({
 						<PopoverTrigger asChild>
 							<Button
 								variant='outline'
-								className='w-full text-left font-normal bg-transparent !flex'
+								className='w-full text-left font-normal bg-transparent !flex !rounded-md'
 							>
 								<CalendarIcon className='h-4 w-4' />
 								{startDate
@@ -98,7 +98,7 @@ export default function RentalPeriodCard({
 						<PopoverTrigger asChild>
 							<Button
 								variant='outline'
-								className='w-full text-left font-normal bg-transparent !flex'
+								className='w-full text-left font-normal bg-transparent !flex !rounded-md'
 							>
 								<CalendarIcon className='mr-2 h-4 w-4' />
 								{endDate

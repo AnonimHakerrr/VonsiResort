@@ -125,7 +125,7 @@ export default function BookingPage() {
       if (response.status === 200) {
         alert("Бронювання успішно створено!");
         localStorage.removeItem("selectedRoom"); // очистка
-        setStep(1); // або редірект на іншу сторінку
+        setStep(1); 
         navigate("/dashboard");
       } else {
         throw new Error("Не вдалося створити бронювання");
