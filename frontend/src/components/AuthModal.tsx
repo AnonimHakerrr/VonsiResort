@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
-import { useUser } from "../store/UseContext"; 
-import { storeToken } from "../services/tokenService"; 
+//import { useUser } from "../store/UseContext"; 
+//import { storeToken } from "../services/tokenService"; 
 import { Button } from "../components/Button";
 import { Input, type InputProps } from "../components/Input";
 import { Label } from "../components/Label";
@@ -13,7 +13,7 @@ import {
 } from "../components/Dialog";
 import { Eye, EyeOff } from "lucide-react";
 import http_api from "../services/http_api";
-import { isAxiosError } from "axios"; //Для безпечної обробки помилок
+//import { isAxiosError } from "axios"; //Для безпечної обробки помилок
 
 // --- Інтерфейси ---
 interface AuthModalProps {
@@ -86,7 +86,7 @@ export function AuthModal({
     agreeToTerms: false,
   });
 
-  const { setUser } = useUser();
+  //const { setUser } = useUser();
 
   // Об'єкт помилок валідації
   const validationErrors = useMemo(() => {
@@ -142,17 +142,21 @@ export function AuthModal({
   // Хендлер відправки форми
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (mode === "register" && !isFormValid) return; 
-
     try {
-      let response;
       if (mode === "login") {
-        response = await http_api.post("/api/Auth/login", {
+        const res = await http_api.post("/api/Auth/login", {
           email: formData.email,
           password: formData.password,
         });
-      } else {
-        response = await http_api.post("/api/Auth/register", {
+
+        const { token, user } = res.data;
+
+        localStorage.setItem("token", token);
+        localStorage.setItem("user", JSON.stringify(user));
+        window.location.reload();
+        onClose();
+      } else if (mode === "register") {
+        const res = await http_api.post("/api/Auth/register", {
           phone: formData.phone,
           password: formData.password,
           passwordConfirm: formData.confirmPassword,
@@ -160,43 +164,29 @@ export function AuthModal({
           firstName: formData.firstName,
           lastName: formData.lastName,
         });
+
+        const { token, user } = res.data;
+
+        localStorage.setItem("token", token);
+        localStorage.setItem("user", JSON.stringify(user));
+        window.location.reload();
+        onClose();
       }
-
-      const { token, user } = response.data;
-      storeToken(token); 
-      setUser(user);     
-      onClose();         
-
-    //Безпечна обробка помилок
-    } catch (err: unknown) {
+    } 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    catch (err: any) {
       console.error(err);
-      
-      let status: number | undefined;
-      let isAuthError: boolean = false;
-      let specificMessage: string | undefined;
-
-      // 2. Перевіряємо, чи це помилка axios
-      if (isAxiosError(err)) { 
-        status = err.response?.status;
-        if (status === 409) {
-          specificMessage = "Користувач з таким email або телефоном вже існує";
-        }
-      }
-      
-      // 3. Перевіряємо, чи це кастомна помилка
-      if (typeof err === 'object' && err !== null && 'isAuthError' in err) {
-         isAuthError = (err as { isAuthError: boolean }).isAuthError;
-      }
-      
-      // 4. Встановлюємо повідомлення
-      if (isAuthError || status === 401 || status === 403) {
+      if (
+        err.isAuthError ||
+        err.response?.status === 401 ||
+        err.response?.status === 403
+      ) {
         setErrorMessage("Невірно введена пошта або пароль");
-      } else if (specificMessage) {
-        setErrorMessage(specificMessage);
+        setIsErrorModalOpen(true);
       } else {
         setErrorMessage("Сталася помилка. Спробуйте ще раз.");
+        setIsErrorModalOpen(true);
       }
-      setIsErrorModalOpen(true);
     }
   };
 

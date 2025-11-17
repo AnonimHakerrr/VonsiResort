@@ -14,10 +14,11 @@ export interface IUser {
 // --- Збереження токена і користувача ---
 export const storeToken = (token: string) => {
   console.log('Storing token');
-localStorage.setItem('token', `Bearer ${token}`);
+  localStorage.setItem('token', `Bearer ${token}`);
   http_api.defaults.headers['Authorization'] = getToken();
 
   const user: IUser = getUserFromToken(token);
+  console.log(user);
   saveUser(user);
 };
 
